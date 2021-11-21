@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/util
+                http://www.springframework.org/schema/util/spring-util.xsd"
+       profile="Main">
+
+
+    <context:component-scan
+            base-package="configuration"/>
+
+    <context:property-placeholder
+        location="configuration/config.properties"
+        local-override="true"/>
+
+
+    <context:annotation-config/>
+
+    <bean class="configuration.ConfigurationClassForXML"/>
+
+
+    <bean id="xml"
+          class="configuration.XML"
+          p:beanA-ref="beanA"
+          p:beanB-ref="beanB_Factory"
+          p:beanC-ref="beanC_FactoryDeclaring"
+          p:beanD_PropertyEditorDefault-ref="beanD_PropertyEditorDefault"
+          p:beanE_PropertyEditorCustom="Vlad Zaripov"
+          p:beanF-ref="beanF"
+          p:beanG_EventPublisher-ref="beanG_EventPublisher"
+          p:beanH-ref="beanH"
+          p:beanJ-ref="beanJ"
+          p:beanK-ref="beanK"
+          p:beanM-ref="beanM"
+          p:beanN-ref="beanN"
+    />
+
+    <bean id="beanA"
+          class="configuration.BeanA"/>
+
+    <bean id="beanB_Factory"
+          class="configuration.BeanB_Factory"
+          p:properties = "XML"/>
+
+    <bean id="beanB_FactoryContext"
+          class="configuration.BeanB_Factory"
+          p:properties = "getting beanBFactory"/>
+
+    <bean id="beanC_Factory"
+          class="configuration.BeanC_Factory"
+          p:properties = "XML"/>
+
+    <bean id="beanC_FactoryDeclaring"
+          factory-bean="beanC_Factory"
+          factory-method="createObject"/>
+
+    <bean id="beanD_PropertyEditorDefault"
+          class="configuration.BeanD_PropertyEditorDefault"
+          p:character="A"
+          p:bytes="John Mayer"
+          p:cls="java.lang.String"
+          p:trueOrFalse="true"
+          p:stringList-ref="stringList"
+          p:stream="configuration/test.txt"
+          p:floatValue="123.45678"
+          p:date="05/03/13"
+          p:file="configuration/test.txt"
+          p:locale="en_US"
+          p:pattern="a*b"
+          p:properties="narne=Chris age=32"
+          p:trimString=" String need trirnrning "
+          p:url="https://spring.io/"/>
+
+    <util:list id="stringList">
+        <value>String member 1</value>
+        <value>String member 2</value>
+    </util:list>
+
+    <bean name="customEditorConfigurer"
+          class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="configuration.BeanE_PropertyEditorCustom"
+                       value="configuration.BeanE_PropertyEditor"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="beanF"
+          class="configuration.BeanF"/>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource"
+          p:basenames-ref="basenames"/>
+
+    <util:list id="basenames">
+         <value>labels</value>
+    </util:list>
+
+    <bean id="beanG_EventListener"
+          class="configuration.BeanG_EventListener"/>
+
+    <bean id="beanG_EventPublisher"
+          class="configuration.BeanG_EventPublisher"/>
+
+    <bean id="beanH"
+          class="configuration.BeanH"/>
+
+    <bean id="beanJ"
+          class="configuration.BeanJ"/>
+
+    <bean id="beanM"
+          class="configuration.BeanM"/>
+
+    <bean id="beanN"
+          class="configuration.BeanN"/>
+
+    <bean id="beanN_Property"
+          class="configuration.BeanN_Property"
+          p:userHome="${user.home}"/>
+
+</beans>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/util
+                http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <context:component-scan
+            base-package="declaringbeans.xmlannotation"/>
+
+    <bean id="messageBeanA" class="java.lang.String"
+          c:_0="text is injected"/>
+
+    <util:map id="map" map-class="java.util.HashMap">
+        <entry key="someValue"
+               value="It's а Friday, we finally made it"/>
+    </util:map>
+
+    <util:map id="mapBean" map-class="java.util.HashMap">
+        <entry key="someBean"
+               value-ref="beanForInjection"/>
+    </util:map>
+
+    <util:properties id="props">
+        <prop key="firstName">John</prop>
+        <prop key="secondName">Mayer</prop>
+    </util:properties>
+
+    <util:set id="set" set-class="java.util.HashSet">
+        <value>value</value>
+    </util:set>
+
+    <util:set id="setBean" set-class="java.util.HashSet">
+        <ref bean="beanForInjection"/>
+    </util:set>
+
+    <util:list id="list" list-class="java.util.ArrayList">
+        <value>value</value>
+    </util:list>
+
+    <util:list id="listBean" list-class="java.util.ArrayList">
+        <ref bean="beanForInjection"/>
+    </util:list>
+
+
+</beans>

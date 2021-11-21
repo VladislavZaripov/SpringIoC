@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation=
+               "http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="xml"
+          class="declaringbeans.xml.XML"
+          p:beanA-ref="beanA"
+          p:beanB-ref="beanB"
+          p:beanC-ref="beanC"
+          p:beanD-ref="beanD"
+          p:beanE-ref="beanE"
+          p:beanF-ref="beanF"
+          p:beanG-ref="beanG"
+          p:beanH-ref="beanH"
+          p:beanIWithBeanReplacer-ref="beanIWithBeanReplacer"
+          p:beanI-ref="beanI"
+          p:beanParent-ref="beanParent"
+          p:beanNames-ref="idF"
+          p:beanJ-ref="beanJ"
+          p:beanL-ref="beanL - child"
+    />
+
+    <bean id="beanForInjection"
+          class="declaringbeans.xml.BeanForInjection"/>
+
+    <bean id="prototypeBeanForInjection"
+          class="declaringbeans.xml.BeanForInjection"
+          scope="prototype"/>
+
+    <bean id="beanA"
+          class="declaringbeans.xml.BeanA"/>
+
+    <bean id="beanB"
+          class="declaringbeans.xml.BeanB">
+        <property name="beanForInjectionMethod" ref="beanForInjection"/>
+    </bean>
+
+    <bean id="beanC"
+          class="declaringbeans.xml.BeanC"
+          p:beanForInjectionMethod-ref="beanForInjection"/>
+
+    <bean id="beanD"
+          class="declaringbeans.xml.BeanD">
+        <constructor-arg index="0" type="String" value="/ text"/>
+        <constructor-arg index="1" type="int">
+            <value>2</value>
+        </constructor-arg>
+    </bean>
+
+    <bean id="beanE"
+          class="declaringbeans.xml.BeanE"
+          p:string = "text"
+          p:integer = "5"
+          p:aBoolean = "true"/>
+
+    <bean id="beanF"
+          class="declaringbeans.xml.BeanF"
+          p:string = "#{beanForInjection.string}"
+          p:integer = "#{beanForInjection.integer + 5}"/>
+
+    <bean id="beanG"
+          class="declaringbeans.xml.BeanG">
+        <property name="map">
+            <map>
+                <entry key="someValue">
+                    <value>value</value>
+                </entry>
+                <entry key="someValue" value="value"/>
+            </map>
+        </property>
+        <property name="mapBean">
+            <map>
+                <entry key="someBeanOne">
+                    <ref bean="beanForInjection"/>
+                </entry>
+                <entry key="someBeanTwo" value-ref="beanForInjection"/>
+            </map>
+        </property>
+        <property name="props">
+            <props>
+                <prop key="firstName">John</prop>
+                <prop key="secondName">Mayer</prop>
+            </props>
+        </property>
+        <property name="set">
+            <set>
+                <value>value</value>
+            </set>
+        </property>
+        <property name="setBean">
+            <set>
+                <ref bean="beanForInjection"/>
+            </set>
+        </property>
+        <property name="list">
+            <list>
+                <value>value</value>
+            </list>
+        </property>
+        <property name="listBean">
+            <list>
+                <ref bean="beanForInjection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="beanH"
+          class="declaringbeans.xml.BeanH">
+        <property name="beanForInjectionMethod" ref="beanForInjection"/>
+        <lookup-method name="getAbstractBeanForInjection" bean="prototypeBeanForInjection"/>
+    </bean>
+
+    <bean id="BeanReplacer"
+          class="declaringbeans.xml.BeanReplacer"/>
+
+    <bean id="beanIWithBeanReplacer"
+          class="declaringbeans.xml.BeanI">
+        <replaced-method name="formatMessage" replacer="BeanReplacer">
+            <arg-type>String</arg-type>
+        </replaced-method>
+        <replaced-method name="formatMessage" replacer="BeanReplacer">
+            <arg-type>Object</arg-type>
+        </replaced-method>
+    </bean>
+
+    <bean id="beanI"
+          class="declaringbeans.xml.BeanI"/>
+
+    <bean id="id first, name"
+          name="secondName, additional name; new name"
+          class="declaringbeans.xml.BeanNames"/>
+    <alias name="id first, name" alias="idF"/>
+
+    <bean id="beanJ"
+          class="declaringbeans.xml.BeanJ"
+          depends-on="beanForInjection"/>
+
+    <bean id="beanKbyName" autowire="byName"
+          p:string = "beanKbyName - autowire"
+          class="declaringbeans.xml.BeanK"
+          lazy-init="true"/>
+
+    <bean id="beanKbyType" autowire="byType"
+          p:string = "beanKbyType - autowire"
+          class="declaringbeans.xml.BeanK"
+          lazy-init="true"/>
+
+    <bean id="beanKconstructor" autowire="constructor"
+          p:string = ""
+          class="declaringbeans.xml.BeanK"
+          lazy-init="true"/>
+
+    <bean id="beanKone"
+          class="declaringbeans.xml.BeanKone">
+    </bean>
+
+    <bean id="beanKtwo"
+          class="declaringbeans.xml.BeanKtwo">
+    </bean>
+
+    <bean id="beanKthreeA"
+          class="declaringbeans.xml.BeanKthreeA"
+          primary="true">
+    </bean>
+
+    <bean id="beanKthreeB"
+          class="declaringbeans.xml.BeanKthreeB">
+    </bean>
+
+    <bean id="beanL - parent"
+          class="declaringbeans.xml.BeanL"
+          p:name = "name from parent"
+          p:age = "5"/>
+
+    <bean id="beanL - child"
+          class="declaringbeans.xml.BeanL"
+          parent="beanL - parent"
+          p:age = "0"/>
+
+</beans>
